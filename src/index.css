@@ -1,1 +1,197 @@
+/* ── Google Fonts — Plus Jakarta Sans (Primary UI) + Inter (Body/Numerals) ── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
+
 @import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────
+   MINTLINE — Premium Dark Fintech Design System
+   ─────────────────────────────────────────────────────
+   Palette:
+     Main background:    Deep midnight navy (#070B1C)
+     Main converter card: Slightly lighter navy (#0D1428)
+     Input backgrounds:  Dark blue-grey (#111B30)
+     Primary accent:     Vibrant violet (#6545FF)
+     Secondary accent:   Soft lavender (#9B8CFF)
+     Main text:          Off-white (#F4F5FA)
+     Secondary text:     Muted blue-grey (#8B96AD)
+     Success indicator:  Emerald green (#10C98A)
+     Subtle border:      #1A2542
+   ───────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #070B1C;
+  color: #F4F5FA;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────
+   Subtle Ambient Fintech Glows (Vibrant Violet & Soft Lavender)
+   ───────────────────────────────────────────────────── */
+
+/* Layer 1: Focused Vibrant Violet Glow behind the Converter Card */
+body::before {
+  content: "";
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  width: min(750px, 85vw);
+  height: min(750px, 85vw);
+  transform: translate(-50%, -20%) scale(1);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(101, 69, 255, 0.16) 0%,
+    rgba(101, 69, 255, 0.05) 45%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+  animation: ambient-card-glow 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+/* Layer 2: Subtle Lavender Ambient Drift (Bottom Right) */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0%;
+  right: 5%;
+  width: min(650px, 65vw);
+  height: min(650px, 65vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(155, 140, 255, 0.09) 0%,
+    rgba(101, 69, 255, 0.03) 45%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+  animation: ambient-drift-lavender 25s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+/* Layer 3: Faint Emerald/Indigo Ambient Accent (Top Left) */
+#root::before {
+  content: "";
+  position: fixed;
+  top: 15%;
+  left: 5%;
+  width: min(500px, 50vw);
+  height: min(500px, 50vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(16, 201, 138, 0.04) 0%,
+    rgba(101, 69, 255, 0.04) 40%,
+    transparent 70%
+  );
+  filter: blur(110px);
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform, opacity;
+  animation: ambient-drift-emerald 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+/* Root stacking context so ambient glows sit behind all interface content */
+#root {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+/* Let the underlying midnight navy canvas show through */
+#root > div {
+  background-color: transparent !important;
+}
+
+/* Smooth ambient floating keyframes */
+@keyframes ambient-card-glow {
+  0% {
+    transform: translate(-50%, -20%) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-47%, -15%) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-53%, -25%) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ambient-drift-lavender {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-40px, -50px, 0) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(30px, 30px, 0) scale(0.96);
+    opacity: 0.85;
+  }
+}
+
+@keyframes ambient-drift-emerald {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate3d(40px, 30px, 0) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-30px, -20px, 0) scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  #root::before {
+    animation: none !important;
+  }
+}
+
+/* Heading / numeral font helper */
+.font-display {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* Remove number spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #070B1C; }
+::-webkit-scrollbar-thumb { background: #1A2542; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #6545FF; }
+
+/* Text Selection */
+::selection { background: #6545FF; color: #FFFFFF; }
+
+/* Thin horizontal rule utility */
+.rule { height: 1px; background: #1A2542; }
